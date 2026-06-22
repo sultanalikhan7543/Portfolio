@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sultan Ali Khan — Data Scientist & ML Engineer</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --ink:        #0B0E14;
+  --ink-soft:   #aab1c4;
+  --ink-mute:   #5d6478;
+  --paper:      #F7F5F0;
+  --paper-dim:  #EDEAE2;
+  --panel:      #11151D;
+  --panel-2:    #161B26;
+  --line:       #232A38;
+  --line-soft:  rgba(255,255,255,0.07);
+  --signal:     #FF8A3D;
+  --signal-dim: rgba(255,138,61,0.12);
+  --teal:       #3DD9C0;
+  --teal-dim:   rgba(61,217,192,0.1);
+  --max:        1080px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--signal); color: var(--ink); }
+
+a { color: inherit; text-decoration: none; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 28px; }
+
+/* ───────── Texture: faint grid ───────── */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+}
+
+/* ───────── Nav ───────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11,14,20,0.85);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav .wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-mark {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem; font-weight: 600;
+  color: var(--paper);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-mark .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: blink 2.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--ink-soft);
+  letter-spacing: 0.04em;
+  transition: color .2s;
+  position: relative;
+}
+.nav-links a:hover { color: var(--signal); }
+.nav-links a::before { content: "/ "; color: var(--ink-mute); }
+
+.nav-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; font-weight: 600;
+  color: var(--ink) !important;
+  background: var(--paper);
+  padding: 7px 16px; border-radius: 4px;
+  transition: all .2s;
+}
+.nav-cta:hover { background: var(--signal); }
+
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+/* ───────── Hero ───────── */
+.hero {
+  position: relative; z-index: 1;
+  padding: 90px 0 60px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; color: var(--teal);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before { content: "▸"; }
+
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  max-width: 820px;
+  margin-bottom: 22px;
+}
+.hero h1 .accent { color: var(--signal); }
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 600px;
+  margin-bottom: 36px;
+}
+.hero-sub strong { color: var(--paper); font-weight: 600; }
+
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+.btn-primary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; font-weight: 600;
+  background: var(--signal); color: var(--ink);
+  padding: 13px 24px; border-radius: 6px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all .2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,138,61,0.3); }
+.btn-secondary {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; font-weight: 500;
+  border: 1px solid var(--line);
+  color: var(--paper);
+  padding: 13px 24px; border-radius: 6px;
+  transition: all .2s;
+}
+.btn-secondary:hover { border-color: var(--ink-soft); background: var(--panel); }
+
+/* ───────── Metrics ticker (signature element) ───────── */
+.ticker-frame {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.ticker-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px;
+  border-bottom: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem; color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+.ticker-head .lights { display: flex; gap: 6px; }
+.ticker-head .lights span {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--line);
+}
+.ticker-head .lights span:nth-child(1) { background: #FF5F56; }
+.ticker-head .lights span:nth-child(2) { background: #FFBD2E; }
+.ticker-head .lights span:nth-child(3) { background: #27C93F; }
+
+.ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.ticker-cell {
+  padding: 22px 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.ticker-cell:nth-child(4n) { border-right: none; }
+.ticker-cell .val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.7rem; font-weight: 600;
+  color: var(--paper);
+  display: flex; align-items: baseline; gap: 4px;
+}
+.ticker-cell .val .unit { font-size: 0.95rem; color: var(--signal); }
+.ticker-cell .label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--ink-mute);
+  letter-spacing: 0.04em; margin-top: 6px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .ticker-grid { grid-template-columns: repeat(2, 1fr); }
+  .ticker-cell:nth-child(4n) { border-right: 1px solid var(--line); }
+  .ticker-cell:nth-child(2n) { border-right: none; }
+}
+
+/* ───────── Section shared ───────── */
+section { position: relative; z-index: 1; padding: 76px 0; border-bottom: 1px solid var(--line); }
+.sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 44px; }
+.sec-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; color: var(--signal);
+}
+.sec-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 600; color: var(--paper);
+  letter-spacing: -0.01em;
+}
+.sec-line { flex: 1; height: 1px; background: var(--line); }
+
+/* ───────── About ───────── */
+.about-grid {
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px;
+}
+.about-text p { color: var(--ink-soft); margin-bottom: 18px; font-size: 1rem; }
+.about-text strong { color: var(--paper); font-weight: 600; }
+.about-text a { color: var(--teal); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.about-text a:hover { border-bottom-color: var(--teal); }
+
+.stack-box {
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--panel); padding: 26px;
+}
+.stack-box h4 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; color: var(--ink-mute);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.stack-group { margin-bottom: 18px; }
+.stack-group:last-child { margin-bottom: 0; }
+.stack-group .stack-label {
+  font-size: 0.78rem; color: var(--ink-mute); margin-bottom: 8px;
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; color: var(--paper);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  padding: 4px 10px; border-radius: 5px;
+}
+
+@media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+/* ───────── Experience (timeline) ───────── */
+.timeline { display: flex; flex-direction: column; }
+.tl-item {
+  display: grid; grid-template-columns: 160px 1fr; gap: 30px;
+  padding: 28px 0; border-top: 1px solid var(--line);
+}
+.tl-item:first-child { border-top: none; }
+.tl-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem; color: var(--ink-mute);
+  padding-top: 2px;
+}
+.tl-period .current {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.65rem; color: var(--teal);
+  background: var(--teal-dim);
+  padding: 3px 8px; border-radius: 4px;
+}
+.tl-role { font-size: 1.1rem; font-weight: 600; color: var(--paper); margin-bottom: 3px; }
+.tl-org { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--signal); margin-bottom: 14px; }
+.tl-points { list-style: none; }
+.tl-points li {
+  position: relative; padding-left: 18px;
+  font-size: 0.92rem; color: var(--ink-soft);
+  margin-bottom: 9px;
+}
+.tl-points li::before {
+  content: "→"; position: absolute; left: 0; color: var(--ink-mute);
+}
+
+@media (max-width: 720px) {
+  .tl-item { grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* ───────── Projects ───────── */
+.proj-grid { display: flex; flex-direction: column; gap: 22px; }
+.proj-card {
+  border: 1px solid var(--line); border-radius: 12px;
+  background: var(--panel);
+  overflow: hidden;
+  transition: border-color .25s, transform .25s;
+}
+.proj-card:hover { border-color: var(--ink-mute); transform: translateY(-2px); }
+
+.proj-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 26px 28px 0;
+  gap: 20px;
+}
+.proj-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.proj-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 600; color: var(--paper); }
+.proj-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; color: var(--signal);
+  background: var(--signal-dim);
+  padding: 3px 9px; border-radius: 20px;
+  white-space: nowrap;
+}
+.proj-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 7px 14px; border-radius: 6px;
+  white-space: nowrap;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.proj-link:hover { background: var(--panel-2); color: var(--paper); border-color: var(--ink-mute); }
+
+.proj-desc { padding: 14px 28px 0; color: var(--ink-soft); font-size: 0.92rem; max-width: 640px; }
+
+.proj-metrics {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.proj-metric {
+  padding: 16px 28px;
+  border-right: 1px solid var(--line);
+}
+.proj-metric:last-child { border-right: none; }
+.proj-metric .mval {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.05rem; font-weight: 600; color: var(--teal);
+}
+.proj-metric .mlabel {
+  font-size: 0.7rem; color: var(--ink-mute); margin-top: 3px;
+}
+
+.proj-stack {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  padding: 18px 28px 26px;
+}
+
+@media (max-width: 720px) {
+  .proj-metrics { grid-template-columns: repeat(2, 1fr); }
+  .proj-metric:nth-child(2) { border-right: none; }
+  .proj-top { flex-direction: column; }
+}
+
+/* ───────── Education / Certs ───────── */
+.dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+.edu-item { margin-bottom: 22px; }
+.edu-degree { font-size: 1.02rem; font-weight: 600; color: var(--paper); }
+.edu-school { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--signal); margin: 4px 0; }
+.edu-period { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--ink-mute); margin-bottom: 8px; }
+.edu-note { font-size: 0.88rem; color: var(--ink-soft); }
+
+.cert-list { display: flex; flex-direction: column; gap: 16px; }
+.cert-item {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+.cert-name { font-size: 0.94rem; color: var(--paper); font-weight: 500; }
+.cert-issuer { font-size: 0.78rem; color: var(--ink-mute); margin-top: 3px; }
+.cert-date { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--ink-mute); white-space: nowrap; }
+
+@media (max-width: 820px) { .dual-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+/* ───────── Contact / Footer ───────── */
+.contact-sec { border-bottom: none; text-align: center; padding: 90px 0 70px; }
+.contact-sec .sec-head { justify-content: center; }
+.contact-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700; color: var(--paper);
+  margin-bottom: 18px;
+  letter-spacing: -0.02em;
+}
+.contact-title .accent { color: var(--signal); }
+.contact-sub { color: var(--ink-soft); max-width: 480px; margin: 0 auto 36px; }
+
+.contact-grid {
+  display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 30px; border-top: 1px solid var(--line);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem; color: var(--ink-mute);
+  flex-wrap: wrap; gap: 12px;
+}
+footer a { color: var(--ink-soft); transition: color .2s; }
+footer a:hover { color: var(--signal); }
+
+/* ───────── Reveal on scroll ───────── */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .nav-mark .dot { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="wrap">
+    <div class="nav-mark"><span class="dot"></span>sultan@ml-engineer</div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#experience">experience</a>
+      <a href="#projects">projects</a>
+      <a href="#education">education</a>
+    </div>
+    <a class="nav-cta" href="mailto:sultanalikhan0344@gmail.com">say hello</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">Available for opportunities · Islamabad, Pakistan (Remote-friendly)</div>
+    <h1>Sultan Ali Khan builds AI systems that <span class="accent">ship</span>, not just notebooks.</h1>
+    <p class="hero-sub">
+      Data Scientist & ML Engineer with <strong>2+ years</strong> of hands-on industry experience —
+      from training models to deploying full-stack AI products people actually use.
+      Currently exploring graduate research in AI/ML.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#projects">View projects ↓</a>
+      <a class="btn-secondary" href="https://github.com/sultanalikhan7543" target="_blank">GitHub ↗</a>
+      <a class="btn-secondary" href="https://linkedin.com/in/sultanalikhan149" target="_blank">LinkedIn ↗</a>
+    </div>
+
+    <!-- Signature element: career-as-dataset ticker -->
+    <div class="ticker-frame reveal">
+      <div class="ticker-head">
+        <span>career_metrics.json — read-only</span>
+        <div class="lights"><span></span><span></span><span></span></div>
+      </div>
+      <div class="ticker-grid">
+        <div class="ticker-cell">
+          <div class="val">2<span class="unit">yrs+</span></div>
+          <div class="label">Industry Experience</div>
+        </div>
+        <div class="ticker-cell">
+          <div class="val">4<span class="unit">shipped</span></div>
+          <div class="label">Deployed AI Products</div>
+        </div>
+        <div class="ticker-cell">
+          <div class="val">3<span class="unit">orgs</span></div>
+          <div class="label">ML / Ops Roles Held</div>
+        </div>
+        <div class="ticker-cell">
+          <div class="val">3<span class="unit">certs</span></div>
+          <div class="label">Applied AI Credentials</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- About -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">About</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm a <strong>Data Scientist and Machine Learning Engineer</strong> based in Islamabad, Pakistan,
+          with a B.Sc. in Software Engineering and a track record of taking ideas from raw data to
+          production. My work spans classical ML pipelines — preprocessing, feature engineering, model
+          evaluation — and modern applied AI, including building tools powered by large language models.
+        </p>
+        <p>
+          What sets my approach apart is a bias toward <strong>finishing</strong>. Rather than stopping at a
+          trained model in a notebook, I build the interface around it, deploy it, and make sure a real
+          person can open a link and get value from it — whether that's a marketing team reading AI-generated
+          campaign insights, or a student getting help writing a thesis.
+        </p>
+        <p>
+          Outside client and product work, I'm an active builder of personal AI tools and a disciplined
+          systems thinker — currently applying the same rigor I bring to ML pipelines to my own trading
+          strategy research and international graduate school applications.
+        </p>
+      </div>
+      <div class="stack-box reveal">
+        <h4>Technical Stack</h4>
+        <div class="stack-group">
+          <div class="stack-label">Languages</div>
+          <div class="tag-row">
+            <span class="tag">Python</span><span class="tag">SQL</span>
+            <span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag">Bash</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">ML / AI</div>
+          <div class="tag-row">
+            <span class="tag">Scikit-learn</span><span class="tag">TensorFlow</span>
+            <span class="tag">Pandas</span><span class="tag">NumPy</span>
+            <span class="tag">Anthropic Claude API</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">Deployment & Viz</div>
+          <div class="tag-row">
+            <span class="tag">Streamlit</span><span class="tag">Plotly</span><span class="tag">Vercel</span>
+          </div>
+        </div>
+        <div class="stack-group">
+          <div class="stack-label">Focus Areas</div>
+          <div class="tag-row">
+            <span class="tag">NLP</span><span class="tag">Generative AI</span>
+            <span class="tag">Model Deployment</span><span class="tag">Data Viz</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Experience</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-period">Apr 2026 — Present<br><span class="current">current</span></div>
+        <div>
+          <div class="tl-role">Operations Specialist</div>
+          <div class="tl-org">Avantduo PVT Ltd · Islamabad</div>
+          <ul class="tl-points">
+            <li>Oversee day-to-day operational workflows, ensuring efficiency across cross-functional teams.</li>
+            <li>Leverage data analytics and automation tools to monitor KPIs and drive process improvements.</li>
+            <li>Support implementation of AI-driven tools to optimize operations and enhance productivity.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-period">Jan 2025 — Jan 2026</div>
+        <div>
+          <div class="tl-role">Machine Learning Engineer</div>
+          <div class="tl-org">Deventia Tech PVT Ltd · Islamabad</div>
+          <ul class="tl-points">
+            <li>Designed, developed, and deployed ML models for diverse data-driven projects using scalable frameworks.</li>
+            <li>Applied advanced preprocessing, feature engineering, and optimization to improve prediction accuracy.</li>
+            <li>Translated business requirements into robust ML solutions, consistently meeting deadlines.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-period">Feb 2026 — Mar 2026</div>
+        <div>
+          <div class="tl-role">AI/ML Engineer (Intern)</div>
+          <div class="tl-org">UMTI Tech Solutions</div>
+          <ul class="tl-points">
+            <li>Developed and tested ML models in Python for classification and regression tasks.</li>
+            <li>Performed data preprocessing, analysis, and visualization using Pandas and NumPy.</li>
+            <li>Evaluated model performance metrics and supported debugging and documentation.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Selected Projects</h2>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="proj-grid">
+
+      <!-- Adlytix AI -->
+      <div class="proj-card reveal">
+        <div class="proj-top">
+          <div class="proj-title-row">
+            <span class="proj-title">Adlytix AI</span>
+            <span class="proj-badge">AI Analytics</span>
+          </div>
+          <a class="proj-link" href="https://adlytix-ai.streamlit.app" target="_blank">Live demo ↗</a>
+        </div>
+        <p class="proj-desc">
+          A full-stack AI-powered marketing analytics dashboard. Upload ad performance data from
+          Google Ads, Meta, or TikTok and get instant KPI breakdowns plus plain-English insights
+          generated by Claude — including best/worst campaign detection and concrete recommendations.
+        </p>
+        <div class="proj-metrics">
+          <div class="proj-metric"><div class="mval">4</div><div class="mlabel">Core KPIs Auto-Calculated</div></div>
+          <div class="proj-metric"><div class="mval">3</div><div class="mlabel">Ad Platforms Supported</div></div>
+          <div class="proj-metric"><div class="mval">0-setup</div><div class="mlabel">User Onboarding</div></div>
+          <div class="proj-metric"><div class="mval">LLM</div><div class="mlabel">Insight Generation</div></div>
+        </div>
+        <div class="proj-stack">
+          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Plotly</span>
+          <span class="tag">Streamlit</span><span class="tag">Anthropic SDK</span>
+        </div>
+      </div>
+
+      <!-- Meridian -->
+      <div class="proj-card reveal">
+        <div class="proj-top">
+          <div class="proj-title-row">
+            <span class="proj-title">Meridian</span>
+            <span class="proj-badge">AI Suite · 9 Tools</span>
+          </div>
+          <a class="proj-link" href="#" target="_blank">Live demo ↗</a>
+        </div>
+        <p class="proj-desc">
+          A conversational AI research and document suite that asks the right questions before
+          giving answers. Nine specialized tools — including a guided search engine, SOP writer,
+          CV builder, study planner, and thesis assistant — each with its own expert system prompt,
+          built end-to-end and deployed publicly.
+        </p>
+        <div class="proj-metrics">
+          <div class="proj-metric"><div class="mval">9</div><div class="mlabel">Specialized AI Tools</div></div>
+          <div class="proj-metric"><div class="mval">1-on-1</div><div class="mlabel">Guided Clarification Flow</div></div>
+          <div class="proj-metric"><div class="mval">Full</div><div class="mlabel">Frontend + Backend Build</div></div>
+          <div class="proj-metric"><div class="mval">Live</div><div class="mlabel">Public Deployment</div></div>
+        </div>
+        <div class="proj-stack">
+          <span class="tag">Python</span><span class="tag">Streamlit</span><span class="tag">JavaScript</span>
+          <span class="tag">Gemini API</span><span class="tag">Prompt Engineering</span>
+        </div>
+      </div>
+
+      <!-- Fake News Detection -->
+      <div class="proj-card reveal">
+        <div class="proj-top">
+          <div class="proj-title-row">
+            <span class="proj-title">Fake News Detection System</span>
+            <span class="proj-badge">Classical ML</span>
+          </div>
+          <a class="proj-link" href="#" target="_blank">Repository ↗</a>
+        </div>
+        <p class="proj-desc">
+          A real-time text classifier distinguishing fake from genuine news articles, with a live
+          Streamlit interface for instant predictions on user-entered text.
+        </p>
+        <div class="proj-metrics">
+          <div class="proj-metric"><div class="mval">TF-IDF</div><div class="mlabel">Vectorization</div></div>
+          <div class="proj-metric"><div class="mval">LogReg</div><div class="mlabel">Classification Model</div></div>
+          <div class="proj-metric"><div class="mval">Live</div><div class="mlabel">Text Input Interface</div></div>
+          <div class="proj-metric"><div class="mval">F1 / Acc</div><div class="mlabel">Evaluation Metrics</div></div>
+        </div>
+        <div class="proj-stack">
+          <span class="tag">Python</span><span class="tag">Scikit-learn</span><span class="tag">Streamlit</span>
+        </div>
+      </div>
+
+      <!-- YouTube Trending -->
+      <div class="proj-card reveal">
+        <div class="proj-top">
+          <div class="proj-title-row">
+            <span class="proj-title">YouTube Trending Videos Analysis</span>
+            <span class="proj-badge">EDA</span>
+          </div>
+          <a class="proj-link" href="#" target="_blank">Repository ↗</a>
+        </div>
+        <p class="proj-desc">
+          Exploratory data analysis on the US YouTube trending dataset to uncover what actually
+          drives video virality — examining the relationship between views, likes, publish timing,
+          and engagement.
+        </p>
+        <div class="proj-metrics">
+          <div class="proj-metric"><div class="mval">US</div><div class="mlabel">Trending Dataset</div></div>
+          <div class="proj-metric"><div class="mval">Corr.</div><div class="mlabel">Engagement Analysis</div></div>
+          <div class="proj-metric"><div class="mval">Time</div><div class="mlabel">Publish-Time Patterns</div></div>
+          <div class="proj-metric"><div class="mval">Viz</div><div class="mlabel">Visualization-First</div></div>
+        </div>
+        <div class="proj-stack">
+          <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Matplotlib/Seaborn</span>
+        </div>
+      </div>
+
+      <!-- Connect App -->
+      <div class="proj-card reveal">
+        <div class="proj-top">
+          <div class="proj-title-row">
+            <span class="proj-title">Connect — Mobile Networking App</span>
+            <span class="proj-badge">Final Year Project</span>
+          </div>
+        </div>
+        <p class="proj-desc">
+          A mobile application for real-time messaging, user management, and secure communication —
+          built end-to-end through the full SDLC, from requirements gathering to deployment.
+        </p>
+        <div class="proj-metrics">
+          <div class="proj-metric"><div class="mval">Full</div><div class="mlabel">SDLC Lifecycle</div></div>
+          <div class="proj-metric"><div class="mval">Real-time</div><div class="mlabel">Messaging</div></div>
+          <div class="proj-metric"><div class="mval">Secure</div><div class="mlabel">User Auth</div></div>
+          <div class="proj-metric"><div class="mval">12mo</div><div class="mlabel">Project Duration</div></div>
+        </div>
+        <div class="proj-stack">
+          <span class="tag">Mobile Dev</span><span class="tag">UI Design</span><span class="tag">Testing</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Education & Certifications -->
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Education & Certifications</h2>
+      <div class="sec-line"></div>
+    </div>
+    <div class="dual-grid">
+      <div class="reveal">
+        <div class="edu-item">
+          <div class="edu-degree">B.Sc. Software Engineering</div>
+          <div class="edu-school">Iqra National University, Peshawar</div>
+          <div class="edu-period">Mar 2020 — Aug 2024</div>
+          <p class="edu-note">
+            Strong foundation in OOP, data structures, algorithms, and SDLC/Agile methodology.
+            Key coursework: Programming Fundamentals, Database Systems, Operating Systems,
+            Cyber Security, Computer Networks, Web & Mobile Development.
+            Final Year Project: <em>Connect — Mobile Networking Application.</em>
+          </p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="cert-list">
+          <div class="cert-item">
+            <div>
+              <div class="cert-name">Generative AI Projects</div>
+              <div class="cert-issuer">iNeuron — text generation, prompt engineering, LLM deployment, ethical AI</div>
+            </div>
+            <div class="cert-date">Sep 2024</div>
+          </div>
+          <div class="cert-item">
+            <div>
+              <div class="cert-name">Machine Learning, AI & Data Science</div>
+              <div class="cert-issuer">Ehunar — applied ML, statistical modelling, predictive analytics</div>
+            </div>
+            <div class="cert-date">Dec 2024</div>
+          </div>
+          <div class="cert-item">
+            <div>
+              <div class="cert-name">Advanced Programming in Python</div>
+              <div class="cert-issuer">NAVTTC — one-year intensive, software design patterns</div>
+            </div>
+            <div class="cert-date">Mar 2021</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-sec" id="contact">
+  <div class="wrap">
+    <h2 class="contact-title">Let's build something <span class="accent">worth shipping.</span></h2>
+    <p class="contact-sub">
+      Open to Data Science, ML Engineering, and applied AI roles — and always happy to talk
+      about a project, a research idea, or a hard data problem.
+    </p>
+    <div class="contact-grid">
+      <a class="btn-primary" href="mailto:sultanalikhan0344@gmail.com">sultanalikhan0344@gmail.com</a>
+      <a class="btn-secondary" href="https://linkedin.com/in/sultanalikhan149" target="_blank">LinkedIn ↗</a>
+      <a class="btn-secondary" href="https://github.com/sultanalikhan7543" target="_blank">GitHub ↗</a>
+    </div>
+    <footer>
+      <span>© 2026 Sultan Ali Khan · Islamabad, Pakistan</span>
+      <span>Built with intent, not a template.</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
