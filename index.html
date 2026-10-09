@@ -294,7 +294,9 @@ footer{background:var(--hero-bg);color:#8fa9a0;padding:22px 0;font-size:.9rem;bo
       </div>
       <a class="btn primary" href="https://scholar.google.com/citations?user=b7F-8jQAAAAJ&hl=en" target="_blank" rel="noopener">Open Google Scholar ↗</a>
     </div>
-    <h3 class="sub-title">Papers</h3>
+    <h3 class="sub-title">Published research (Zenodo)</h3>
+    <div class="pub-list" id="published"></div>
+    <h3 class="sub-title">Working papers and manuscripts in preparation</h3>
     <div class="pub-list" id="papers"></div>
     <h3 class="sub-title">Technical articles on Dev.to</h3>
     <div class="pub-list" id="articles"></div>
@@ -434,15 +436,16 @@ const PAPERS = [
 
 const PAPERS_NEW = [
   {title:"Federated Learning for Privacy-Preserving ECG Arrhythmia Classification under Non-IID Data Distributions: A Preliminary Study",
-   meta:"Sultan Ali Khan · Zenodo", status:"Published", cls:"status-wp",
-   links:[{label:"Read paper (DOI)", href:"https://doi.org/10.5281/zenodo.23231472"}],
-   bib:"@misc{khan_fl_ecg,\n  author = {Khan, Sultan Ali},\n  title  = {Federated Learning for Privacy-Preserving ECG Arrhythmia Classification under Non-IID Data Distributions: A Preliminary Study},\n  publisher = {Zenodo},\n  doi    = {10.5281/zenodo.23231472},\n  url    = {https://doi.org/10.5281/zenodo.23231472}\n}"},
+   meta:"Sultan Ali Khan · Zenodo · Version v2 · 8 October 2026 · CC BY 4.0", status:"Preprint", cls:"status-wp",
+   summary:"A preliminary empirical study of federated learning for ECG arrhythmia classification on the MIT-BIH Arrhythmia Database. Five simulated hospital clients are partitioned with Dirichlet distributions (α = 0.1, 0.5, 1.0), and FedAvg is compared with FedProx using a compact 1D CNN with class-weighted loss. Both methods collapse under severe non-IID data (macro F1 ≈ 0.22). FedProx leads at α = 0.5 (F1 0.617 vs 0.575), while FedAvg leads at α = 1.0 (0.569 vs 0.493). This is a simulation-based preliminary study, not a clinical validation.",
+   links:[{label:"Read paper (DOI)", href:"https://doi.org/10.5281/zenodo.23231472"},{label:"Zenodo record", href:"https://zenodo.org/records/23231472"},{label:"Code repository", href:"https://github.com/sultanalikhan7543/federated-ecg-research"}],
+   bib:"@misc{khan_fl_ecg,\n  author = {Khan, Sultan Ali},\n  title  = {Federated Learning for Privacy-Preserving ECG Arrhythmia Classification under Non-IID Data Distributions: A Preliminary Study},\n  publisher = {Zenodo},\n  version = {v2},\n  year   = {2026},\n  doi    = {10.5281/zenodo.23231472},\n  url    = {https://doi.org/10.5281/zenodo.23231472}\n}"},
   {title:"Temporal Memory for Robust Navigation under Distribution Shift: A Controlled Benchmark of Recurrent and Memoryless Policies",
-   meta:"Sultan Ali Khan · Zenodo", status:"Published", cls:"status-wp",
-   links:[{label:"Read paper (DOI)", href:"https://doi.org/10.5281/zenodo.23256938"}],
-   bib:"@misc{khan_temporal_memory,\n  author = {Khan, Sultan Ali},\n  title  = {Temporal Memory for Robust Navigation under Distribution Shift: A Controlled Benchmark of Recurrent and Memoryless Policies},\n  publisher = {Zenodo},\n  doi    = {10.5281/zenodo.23256938},\n  url    = {https://doi.org/10.5281/zenodo.23256938}\n}"}
+   meta:"Sultan Ali Khan (Independent Researcher) · Zenodo · Version 1.0.0 · 9 October 2026 · CC BY 4.0", status:"Zenodo publication", cls:"status-wp",
+   summary:"A controlled benchmark of temporal memory in mobile-robot navigation under distribution shift. A memoryless MLP policy (PPO) is compared with a recurrent LSTM policy (RecurrentPPO) on a goal-occlusion task in a lightweight 2D NumPy environment, with mild domain randomization in training. Under severe, unseen shift the LSTM drops 8 percentage points from its training-distribution success rate and the MLP drops 30, but both stay below 5% success, so temporal memory appears necessary but not sufficient. Results are from a simulated task only.",
+   links:[{label:"Read paper (DOI)", href:"https://doi.org/10.5281/zenodo.23256938"},{label:"Zenodo record", href:"https://zenodo.org/records/23256938"},{label:"Code repository", href:"https://github.com/sultanalikhan7543/sim2real-navigation"}],
+   bib:"@misc{khan_temporal_memory,\n  author = {Khan, Sultan Ali},\n  title  = {Temporal Memory for Robust Navigation under Distribution Shift: A Controlled Benchmark of Recurrent and Memoryless Policies},\n  publisher = {Zenodo},\n  version = {1.0.0},\n  year   = {2026},\n  doi    = {10.5281/zenodo.23256938},\n  url    = {https://doi.org/10.5281/zenodo.23256938}\n}"}
 ];
-PAPERS.push(...PAPERS_NEW);
 
 const ARTICLES = [
   {title:"LLMs as Analytics Translators: Can Generative AI Replace the Business Dashboard?", meta:"Dev.to · Adlytix AI", href:""},
@@ -558,10 +561,10 @@ document.querySelectorAll('main section[id]').forEach(s=>io.observe(s));
 
 /* papers */
 (function(){
-  const box=$('#papers');
-  PAPERS.forEach(p=>{
+  function renderPapers(list,box){
+  list.forEach(p=>{
     const c=el('article','pub',
-      `<h3>${esc(p.title)}</h3><p class="meta"><span class="badge ${p.cls}">${esc(p.status)}</span>${esc(p.meta)}</p>`);
+      `<h3>${esc(p.title)}</h3><p class="meta"><span class="badge ${p.cls}">${esc(p.status)}</span>${esc(p.meta)}</p>`+(p.summary?`<p style="grid-column:1/-1;margin:0">${esc(p.summary)}</p>`:''));
     const act=el('div','actions');
     p.links.forEach(l=>{const a=el('a','mini',esc(l.label)+' ↗'); a.href=l.href; a.target='_blank'; a.rel='noopener'; act.append(a);});
     const cite=el('button','mini','Copy BibTeX');
@@ -571,6 +574,9 @@ document.querySelectorAll('main section[id]').forEach(s=>io.observe(s));
     };
     act.append(cite); c.append(act); box.append(c);
   });
+  }
+  renderPapers(PAPERS_NEW,$('#published'));
+  renderPapers(PAPERS,$('#papers'));
   const ab=$('#articles');
   ARTICLES.forEach(a=>{
     const c=el('article','pub',`<h3>${esc(a.title)}</h3><p class="meta"><span class="badge status-blog">Article</span>${esc(a.meta)}</p>`);
